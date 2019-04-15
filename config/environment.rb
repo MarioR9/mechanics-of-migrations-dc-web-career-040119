@@ -5,6 +5,8 @@ require 'ostruct'
 require 'date'
 
 
+require_relative "../artist.rb"
+
 require 'bundler/setup'
 Bundler.require
 
@@ -14,18 +16,16 @@ ActiveRecord::Base.establish_connection(
 	:adapter => "sqlite3",
 	:database => "db/artists.sqlite"
 )
+		sql = <<-SQL
+		  CREATE TABLE IF NOT EXISTS artists (
+			  id INTEGER PRIMARY KEY,
+			  name TEXT,
+			  genre TEXT,
+			  age INTEGER,
+			  hometown TEXT
+		  )
+		SQL
 
-	sql = <<-SQL 
-		CREATE TABLE IF NOT EXISTS artists(
-		id INTEGER PRIMARY KEY,
-		name TEXT,
-		genre TEXT,
-		age INTEGER,
-		hometown TEXT
-		)
-	SQL
-
-	ActiveRecord::Base.connection.execute(sql)
+ActiveRecord::Base.connection.execute(sql)
 
 
-require_relative "../artist.rb"
